@@ -4,6 +4,7 @@ import { ContentDetails, ContentDetails2 } from "../../../../../types/types";
 import Link from "next/link";
 import Image from "next/image";
 import imdb from "../../../../../Images/imdb.svg";
+// import { getRSCModuleType } from "next/dist/build/analysis/get-page-static-info";
 interface Props {
   movieData: ContentDetails;
   movieData2: ContentDetails2;
@@ -18,6 +19,7 @@ const Information: FC<Props> = ({ movieData, genres, movieData2 }) => {
       if (movieData.genres.length - 1 === idx) {
         a.push(
           <Link
+            key={genres[idx][0] * Math.random() * 1000}
             className={"hover:underline hover:underline-offset-2"}
             href={"#"}
           >
@@ -27,11 +29,15 @@ const Information: FC<Props> = ({ movieData, genres, movieData2 }) => {
         return;
       }
       a.push(
-        <Link className={"hover:underline hover:underline-offset-2"} href={"#"}>
+        <Link
+          key={genres[idx][0] * Math.random()}
+          className={"hover:underline hover:underline-offset-2"}
+          href={"#"}
+        >
           {genres[idx][1]}
         </Link>
       );
-      a.push(<>, </>);
+      a.push(<span key={Math.random() * 1000}>, </span>);
     });
     return (
       <>

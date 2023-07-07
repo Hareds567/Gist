@@ -75,6 +75,34 @@ export async function getMovie(id: number) {
   return { data, data2 };
 }
 
+export async function getMoviesByReleaseDate() {
+  const date = new Date().toISOString().split("T")[0];
+  console.log(date);
+  const res = await getMoviesByFilter({
+    sort_by: "release_date.desc",
+    "primary_release_date.lte": `${date}`,
+  });
+  return res;
+}
+
+export async function getMoviesByFilter(filter: any) {
+  // if(typeof filter !== `object` && filter === null) return
+  const url = `${URL}/discover/movie`;
+  const params = API_KEY
+    ? new URLSearchParams({
+        api_key: API_KEY,
+        language: "en-US",
+        include_video: "false",
+        ...(filter as object),
+      }).toString()
+    : "";
+  console.log(params);
+  const res = await apiCall(fetch(`${url}?${params}`));
+  const data = (await res?.json()) as API_Response;
+  // console.log(data);
+  return data;
+}
+
 //- Images  --------------------------------------------------------------------------------------------
 export function getPosterImage(size: PosterSize, file_path: string | null) {
   if (file_path) {
@@ -128,4 +156,13 @@ export async function getSimilarContent(id: number) {
   const res = await apiCall(fetch(`${url}?${params}`));
   const data = await res?.json();
   return data as API_Response;
+}
+
+//Local
+export async function getMovieVideoSource(id: number) {
+  const url = `localhost:9090/movies/${id}/video`;
+  const res = await apiCall(fetch(url));
+  // console.log(res);
+  const data = await res?.json();
+  // console.log(data);
 }

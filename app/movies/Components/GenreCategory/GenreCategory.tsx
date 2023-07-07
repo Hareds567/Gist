@@ -11,11 +11,10 @@ interface Props {
 const WIDTH = 150;
 
 const GenreCategory: FC<Props> = ({ genres, list }) => {
-  const [genreList, set_genreList] = React.useState(list);
-
+ 
   return (
     <div className="relative">
-      {genreList.map((list, idx) => {
+      {list.map((list, idx) => {
         return (
           <Category
             key={genres[idx][0]}
